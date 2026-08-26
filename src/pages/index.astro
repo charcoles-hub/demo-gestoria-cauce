@@ -1,6 +1,5 @@
 ---
-const HERO = "https://images.unsplash.com/photo-1573497491208-6b1acb260507";
-const DOCS = "https://images.unsplash.com/photo-1554224155-6726b3ff858f";
+const asset = (p: string) => `${import.meta.env.BASE_URL}/${p}`.replace("//", "/");
 
 const servicios = [
   {
@@ -17,6 +16,13 @@ const servicios = [
   },
 ];
 
+const calendario = [
+  { m: "Enero", f: "hasta el 30", d: "IVA del 4º trimestre (modelo 303), pagos fraccionados y resúmenes anuales (390, 190)." },
+  { m: "Abril", f: "hasta el 20", d: "IVA e IRPF del 1er trimestre. Y arranca la campaña de la Renta." },
+  { m: "Julio", f: "hasta el 25", d: "IVA e IRPF del 2º trimestre y el Impuesto de Sociedades (modelo 200)." },
+  { m: "Octubre", f: "hasta el 20", d: "IVA e IRPF del 3er trimestre y segundo pago a cuenta de la Renta." },
+];
+
 const razones = [
   { t: "Respuesta en 24h", d: "Nunca un buzón de voz. Escribes y te contesta la persona que lleva tu caso." },
   { t: "Un gestor, no un turno", d: "Siempre la misma persona conoce tu negocio: no repites la historia cada vez." },
@@ -28,6 +34,16 @@ const facts = [
   { n: "310+", l: "empresas y autónomos asesorados" },
   { n: "24h", l: "tiempo medio de respuesta" },
 ];
+
+const reviews = [
+  { n: "Montse Ferrer", a: "M", t: "hace 2 semanas", q: "Autónoma desde 2019 y por fin entiendo lo que presento cada trimestre. Me avisan de los plazos antes de que yo me acuerde de que existen." },
+  { n: "Òscar Vidal", a: "O", t: "hace 1 mes", q: "Cambié de gestoría después de un susto con un requerimiento. Lo arreglaron ellos, gratis, antes de ser clientes siquiera. Ahí me quedé." },
+  { n: "Raquel Domínguez", a: "R", t: "hace 3 meses", q: "Llevan la SL y las nóminas de mis cuatro empleados. Cualquier duda por WhatsApp y contesta Marta, no un contestador." },
+];
+
+const TEL = "+34612448721";
+const TEL_TXT = "612 44 87 21";
+const WA = "https://wa.me/34612448721";
 ---
 <!doctype html>
 <html lang="es">
@@ -36,7 +52,14 @@ const facts = [
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="Cauce · Gestoría fiscal, laboral y contable en Sant Joan Despí. Asesoramiento cercano para autónomos y pymes del Baix Llobregat, sin sustos ni jerga." />
     <title>Cauce · Gestoría en Sant Joan Despí</title>
-    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+    <meta name="theme-color" content="#16213b" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Cauce · Gestoría en Sant Joan Despí" />
+    <meta property="og:description" content="Fiscal, laboral y contable para autónomos y pymes del Baix Llobregat. Un gestor fijo, respuesta en 24h, cero sorpresas en marzo." />
+    <meta property="og:image" content="https://charcoles-hub.github.io/demo-gestoria-cauce/img/og.jpg" />
+    <meta property="og:url" content="https://charcoles-hub.github.io/demo-gestoria-cauce/" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="icon" type="image/svg+xml" href={asset("favicon.svg")} />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,500;0,600;0,700;1,500&family=Red+Hat+Text:wght@400;500;600&display=swap" rel="stylesheet" />
@@ -46,6 +69,7 @@ const facts = [
       <a href="#top" class="brand">Cauce</a>
       <nav class="bar-nav">
         <a href="#servicios">Servicios</a>
+        <a href="#calendario">Calendario fiscal</a>
         <a href="#nosotros">Por qué Cauce</a>
         <a href="#contacto">Contacto</a>
       </nav>
@@ -61,11 +85,11 @@ const facts = [
           <p class="lead">Llevamos lo fiscal, laboral y contable de autónomos y pymes del Baix Llobregat para que dejes de mirar el calendario con miedo. Un gestor fijo, respuesta rápida, cero sorpresas en marzo.</p>
           <div class="hero-cta">
             <a href="#contacto" class="btn">Pedir primera consulta</a>
-            <a href="tel:+34936000000" class="link-soft">o llama: 936 00 00 00</a>
+            <a href={`tel:${TEL}`} class="link-soft">o llama: {TEL_TXT}</a>
           </div>
         </div>
         <figure class="hero-figure" data-parallax>
-          <img src={`${HERO}?auto=format&fit=crop&w=1200&q=80`} alt="Reunión de asesoramiento entre una gestora y su clienta en una oficina luminosa" loading="eager" />
+          <img src={asset("img/reunion.webp")} alt="Reunión de asesoramiento en el despacho: un gestor revisa la documentación con dos clientas" width="1400" height="925" loading="eager" fetchpriority="high" decoding="async" />
           <figcaption class="floater">
             <strong>310+</strong>
             <span>negocios que ya no llevan las cuentas con sudores fríos</span>
@@ -98,10 +122,28 @@ const facts = [
         </div>
       </section>
 
+      <!-- Calendario fiscal -->
+      <section id="calendario" class="cal">
+        <header class="cal-head">
+          <h2>El calendario que ya<br />no tendrás que vigilar.</h2>
+          <p class="cal-lead">Esto es lo que Hacienda espera de ti cada año. Nosotros lo tenemos marcado en rojo: te avisamos dos semanas antes de cada plazo y te decimos exactamente qué papeles necesitamos.</p>
+        </header>
+        <ol class="cal-grid">
+          {calendario.map((c) => (
+            <li class="cal-card" data-reveal>
+              <span class="cal-mes">{c.m}</span>
+              <span class="cal-fecha">{c.f}</span>
+              <p>{c.d}</p>
+            </li>
+          ))}
+        </ol>
+        <p class="cal-foot">¿Autónomo en módulos, alquileres, Intrastat? Tu calendario cambia — en la primera consulta te lo dejamos por escrito.</p>
+      </section>
+
       <!-- Por qué Cauce (banda oscura) -->
       <section id="nosotros" class="why">
         <div class="why-media" data-reveal>
-          <img src={`${DOCS}?auto=format&fit=crop&w=1000&q=80`} alt="Documentos fiscales y calculadora ordenados sobre una mesa de madera" loading="lazy" />
+          <img src={asset("img/despacho.webp")} alt="Calculadora y cuaderno de cuentas sobre el escritorio del despacho" width="1000" height="667" loading="lazy" decoding="async" />
         </div>
         <div class="why-copy">
           <h2>No somos la gestoría<br />que archiva y calla.</h2>
@@ -122,12 +164,27 @@ const facts = [
         <p class="result-sub">No es fidelización forzada. Es que da pereza volver a explicarle tu negocio a otro.</p>
       </section>
 
-      <!-- Testimonio -->
-      <section class="quote">
-        <blockquote data-reveal>
-          <p>“Antes cada trimestre era una pelea de emails sin contestar. Con Cauce sé lo que voy a pagar antes de que llegue el aviso, y sé quién me lo va a explicar si no lo entiendo.”</p>
-          <cite>— Mireia Prat, óptica en Sant Joan Despí</cite>
-        </blockquote>
+      <!-- Reseñas -->
+      <section class="resenas">
+        <header class="resenas-head">
+          <h2>4,8 sobre 5 <em>en Google</em></h2>
+          <p class="resenas-count">94 reseñas · Sant Joan Despí</p>
+        </header>
+        <ul class="reviews">
+          {reviews.map((r) => (
+            <li class="review" data-reveal>
+              <div class="review-head">
+                <span class="avatar" aria-hidden="true">{r.a}</span>
+                <div>
+                  <strong>{r.n}</strong>
+                  <span class="review-meta">{r.t}</span>
+                </div>
+              </div>
+              <div class="stars" aria-label="5 de 5 estrellas">★★★★★</div>
+              <p>{r.q}</p>
+            </li>
+          ))}
+        </ul>
       </section>
 
       <!-- Contacto -->
@@ -136,10 +193,14 @@ const facts = [
           <h2>Empieza con una<br />consulta sin coste.</h2>
           <p class="book-lead">30 minutos para revisar tu situación y decirte, sin rodeos, si podemos ayudarte y cuánto costaría.</p>
           <dl class="contact">
-            <div><dt>Dónde</dt><dd>Carrer de Sant Josep 12<br />08970 Sant Joan Despí</dd></div>
+            <div><dt>Dónde</dt><dd>Carrer de Sant Josep 12<br />08970 Sant Joan Despí<br /><span class="contact-extra">Renfe Sant Joan Despí a 5 min · TRAM Bon Viatge</span></dd></div>
             <div><dt>Horario</dt><dd>Lun–Vie · 09:00 – 18:30</dd></div>
-            <div><dt>Teléfono</dt><dd>936 00 00 00 · WhatsApp</dd></div>
+            <div><dt>Teléfono</dt><dd><a href={`tel:${TEL}`}>{TEL_TXT}</a> · <a href={WA}>WhatsApp</a></dd></div>
           </dl>
+          <a class="mapa" href="https://www.google.com/maps/search/?api=1&query=Carrer+de+Sant+Josep+12+Sant+Joan+Desp%C3%AD" target="_blank" rel="noopener">
+            <img src={asset("img/mapa.webp")} alt="Mapa de Sant Joan Despí con la gestoría señalada" width="1000" height="520" loading="lazy" decoding="async" />
+            <span class="mapa-cta">Cómo llegar →</span>
+          </a>
         </div>
         <form class="book-form" action="https://api.web3forms.com/submit" method="POST">
           <input type="hidden" name="access_key" value="TU-ACCESS-KEY-WEB3FORMS" />
@@ -163,6 +224,12 @@ const facts = [
       </section>
     </main>
 
+    <nav class="dock" aria-label="Contacto rápido">
+      <a href={`tel:${TEL}`}><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 10.8a15 15 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.24 11 11 0 0 0 3.5.56 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 4a1 1 0 0 1 1-1h3.5a1 1 0 0 1 1 1 11 11 0 0 0 .56 3.5 1 1 0 0 1-.25 1z"/></svg>Llamar</a>
+      <a href={WA}><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15l-1.3 4.7 4.8-1.3A10 10 0 1 0 12 2zm5.3 14.1c-.2.6-1.2 1.2-1.7 1.2-.5.1-1 .1-1.6-.1a13 13 0 0 1-5-3.3 9.4 9.4 0 0 1-2-3.2c-.2-.7 0-1.3.4-1.7l.6-.6c.2-.2.5-.2.7.1l1 1.7c.1.3.1.5 0 .7l-.4.5c-.2.2-.2.4-.1.6a7.6 7.6 0 0 0 3.4 3c.3.1.5.1.7-.1l.6-.7c.2-.2.4-.2.7-.1l1.7.9c.3.1.4.4.3.7z"/></svg>WhatsApp</a>
+      <a href="#contacto" class="dock-cta">Pedir consulta</a>
+    </nav>
+
     <footer class="foot">
       <span class="brand sm">Cauce</span>
       <p>Gestoría fiscal, laboral y contable · Sant Joan Despí</p>
@@ -177,7 +244,8 @@ const facts = [
 
       const parallax = document.querySelector('[data-parallax]');
       const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      if (parallax && !reduceMotion) {
+      const isMobile = window.matchMedia('(max-width: 860px)').matches;
+      if (parallax && !reduceMotion && !isMobile) {
         let ticking = false;
         addEventListener('scroll', () => {
           if (ticking) return;
@@ -206,6 +274,7 @@ const facts = [
     --gold: #b3872f;
     --gold-deep: #8f6b21;
     --line: #dcd7c9;
+    --star: #f4b400;
     --display: "Instrument Sans", system-ui, sans-serif;
     --ui: "Red Hat Text", system-ui, sans-serif;
   }
@@ -220,6 +289,9 @@ const facts = [
   a { color: inherit; text-decoration: none; }
   em { font-style: normal; color: var(--gold-deep); }
 
+  h1, h2, h3 { text-wrap: balance; }
+  p { text-wrap: pretty; }
+
   .kicker {
     font-size: 13px; letter-spacing: .14em; text-transform: uppercase;
     color: var(--navy); font-weight: 600; margin-bottom: 22px;
@@ -228,7 +300,8 @@ const facts = [
   .btn {
     display: inline-block; font-family: var(--display); font-weight: 600; font-size: 16px;
     padding: 15px 28px; border-radius: 10px; background: var(--navy); color: #fff;
-    border: 1px solid var(--navy); transition: transform .2s, background .25s, box-shadow .25s;
+    border: 1px solid var(--navy);
+    transition: transform .5s linear(0, .55 18%, 1.04 42%, .98 60%, 1), background .25s, box-shadow .25s;
   }
   .btn:hover { background: var(--navy-deep); transform: translateY(-2px); box-shadow: 0 14px 30px -14px rgba(22,33,59,.6); }
   .btn-sm { padding: 11px 20px; font-size: 15px; }
@@ -313,6 +386,28 @@ const facts = [
   .service-row h3 { font-family: var(--display); font-weight: 600; font-size: clamp(22px, 2.6vw, 30px); letter-spacing: -.01em; }
   .service-row p { color: #56607a; max-width: 52ch; }
 
+  /* Calendario fiscal */
+  .cal { padding-top: clamp(16px, 3vw, 40px); padding-bottom: clamp(56px, 8vw, 100px); }
+  .cal-head { max-width: 720px; margin-bottom: 44px; }
+  .cal-head h2 {
+    font-family: var(--display); font-weight: 700;
+    font-size: clamp(32px, 4.6vw, 54px); line-height: 1.05; letter-spacing: -.025em; margin-bottom: 20px;
+  }
+  .cal-lead { color: var(--slate); max-width: 58ch; }
+  .cal-grid { list-style: none; display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+  .cal-card {
+    background: var(--paper); border: 1px solid var(--line); border-radius: 16px;
+    padding: 22px 20px 24px; display: flex; flex-direction: column; gap: 6px;
+    box-shadow: 0 18px 40px -32px rgba(22,33,59,.35);
+  }
+  .cal-mes { font-family: var(--display); font-weight: 700; font-size: 22px; color: var(--navy); }
+  .cal-fecha {
+    font-size: 12.5px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase;
+    color: var(--gold-deep); margin-bottom: 6px;
+  }
+  .cal-card p { font-size: 14.5px; color: #56607a; line-height: 1.5; }
+  .cal-foot { margin-top: 22px; font-size: 14px; color: var(--slate); }
+
   /* Por qué (banda navy) */
   .why {
     display: grid; grid-template-columns: .85fr 1.15fr; gap: clamp(30px, 5vw, 64px); align-items: center;
@@ -333,19 +428,47 @@ const facts = [
   .result-stat span { color: var(--navy); }
   .result-sub { margin-top: 22px; color: var(--slate); font-size: clamp(16px, 1.6vw, 19px); }
 
-  /* Testimonio */
-  .quote { text-align: center; padding-top: clamp(48px, 6vw, 80px); padding-bottom: clamp(64px, 9vw, 120px); }
-  .quote blockquote { max-width: 860px; margin: 0 auto; }
-  .quote p { font-family: var(--display); font-weight: 500; font-size: clamp(22px, 3.2vw, 36px); line-height: 1.28; letter-spacing: -.01em; }
-  .quote cite { display: block; margin-top: 26px; font-style: normal; font-size: 14px; letter-spacing: .1em; text-transform: uppercase; color: var(--slate); }
+  /* Reseñas */
+  .resenas { padding-top: clamp(48px, 6vw, 80px); padding-bottom: clamp(64px, 9vw, 120px); }
+  .resenas-head { text-align: center; margin-bottom: 44px; }
+  .resenas-head h2 { font-family: var(--display); font-weight: 700; font-size: clamp(28px, 4vw, 46px); letter-spacing: -.02em; }
+  .resenas-count { color: var(--slate); font-size: 14px; margin-top: 10px; letter-spacing: .04em; }
+  .reviews { list-style: none; display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; max-width: 1100px; margin: 0 auto; }
+  .review {
+    background: var(--paper); border: 1px solid var(--line); border-radius: 16px; padding: 24px;
+    box-shadow: 0 18px 40px -32px rgba(22,33,59,.35);
+  }
+  .review-head { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+  .avatar {
+    width: 40px; height: 40px; border-radius: 50%; background: var(--navy); color: #fff;
+    display: inline-flex; align-items: center; justify-content: center;
+    font-family: var(--display); font-weight: 700; font-size: 17px; flex-shrink: 0;
+  }
+  .review-head strong { display: block; font-size: 15px; }
+  .review-meta { font-size: 13px; color: var(--slate); }
+  .stars { color: var(--star); font-size: 15px; letter-spacing: 2px; margin-bottom: 10px; }
+  .review p { font-size: 15px; color: #454e63; line-height: 1.55; }
 
   /* Contacto */
-  .book { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(34px, 6vw, 84px); align-items: center; padding-top: clamp(48px, 7vw, 96px); padding-bottom: clamp(64px, 9vw, 120px); }
+  .book { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(34px, 6vw, 84px); align-items: start; padding-top: clamp(48px, 7vw, 96px); padding-bottom: clamp(64px, 9vw, 120px); }
   .book h2 { font-family: var(--display); font-weight: 700; font-size: clamp(30px, 4.2vw, 50px); line-height: 1.05; letter-spacing: -.025em; }
   .book-lead { margin-top: 20px; max-width: 42ch; color: var(--slate); font-size: 16.5px; }
   .contact { margin-top: 36px; display: grid; gap: 22px; }
   .contact dt { font-size: 13px; letter-spacing: .12em; text-transform: uppercase; color: var(--gold-deep); font-weight: 600; margin-bottom: 6px; }
   .contact dd { color: var(--ink); line-height: 1.5; }
+  .contact dd a { border-bottom: 1px solid color-mix(in srgb, var(--gold) 45%, transparent); }
+  .contact dd a:hover { color: var(--gold-deep); }
+  .contact-extra { color: var(--slate); font-size: 14px; }
+  .mapa {
+    display: block; position: relative; margin-top: 32px; border: 1px solid var(--line);
+    border-radius: 14px; overflow: hidden;
+  }
+  .mapa img { display: block; width: 100%; height: 230px; object-fit: cover; }
+  .mapa-cta {
+    position: absolute; right: 14px; bottom: 14px; background: var(--gold); color: #fff;
+    font-size: 13px; font-weight: 700; letter-spacing: .04em; padding: 9px 15px; border-radius: 8px;
+  }
+  .mapa:hover .mapa-cta { background: var(--gold-deep); }
   .book-form { background: var(--paper); border: 1px solid var(--line); border-radius: 22px; padding: clamp(26px, 3vw, 40px); box-shadow: 0 30px 70px -44px rgba(22,33,59,.35); }
   .book-form h3 { font-family: var(--display); font-weight: 600; font-size: 25px; margin-bottom: 24px; letter-spacing: -.01em; }
   .book-form label { display: block; font-size: 13px; letter-spacing: .04em; text-transform: uppercase; color: var(--slate); font-weight: 600; margin-bottom: 18px; }
@@ -368,16 +491,80 @@ const facts = [
   .foot-links a { color: #b7bfd4; transition: color .25s; }
   .foot-links a:hover { color: #fff; }
 
+  /* Barra fija de contacto (solo móvil) */
+  .dock { display: none; }
+
   @media (max-width: 860px) {
     .bar-nav { display: none; }
-    .hero { grid-template-columns: 1fr; }
-    .hero-figure img { height: 320px; }
+    body { padding-bottom: 56px; }
+
+    .dock {
+      position: fixed; left: 0; right: 0; bottom: 0; z-index: 60;
+      display: grid; grid-template-columns: 1fr 1fr 1.3fr; gap: 1px;
+      background: var(--line); border-top: 1px solid var(--line);
+      padding-bottom: env(safe-area-inset-bottom);
+      font-size: 13px; letter-spacing: .04em;
+    }
+    .dock a {
+      background: var(--paper); color: var(--ink); min-height: 56px;
+      display: flex; align-items: center; justify-content: center; gap: 7px; font-weight: 600;
+    }
+    .dock svg { width: 17px; height: 17px; fill: var(--navy); }
+    .dock a.dock-cta { background: var(--navy); color: #fff !important; }
+
+    /* la foto pasa a ser el fondo del primer pantallazo */
+    .hero { grid-template-columns: 1fr; position: relative; padding-top: 72px; padding-bottom: 56px; min-height: min(78svh, 720px); align-items: end; }
+    .hero-figure {
+      position: absolute; inset: 0; border-radius: 0; box-shadow: none;
+      animation: none; z-index: 0;
+    }
+    .hero-figure img { width: 100%; height: 100%; object-position: 60% 40%; }
+    .hero-figure::after {
+      content: ""; position: absolute; inset: 0;
+      background: linear-gradient(180deg, rgba(15,20,36,.42) 0%, rgba(15,20,36,.62) 48%, rgba(15,20,36,.88) 100%);
+    }
+    .floater { display: none; }
+    .hero-copy { position: relative; z-index: 2; color: #fff; }
+    .hero-copy .kicker { color: #f2d99a; }
+    .hero-copy h1 { color: #fff; }
+    .hero-copy h1 em { color: #f2d99a; }
+    .hero-copy .lead { color: #dbe0ec; }
+    .hero-copy .link-soft { color: #dbe0ec; }
+    .hero-cta .btn { background: var(--gold); border-color: var(--gold); }
+
     .service-row { grid-template-columns: 1fr; gap: 10px; }
     .service-row:hover { transform: none; }
+    .cal-grid { grid-template-columns: 1fr 1fr; }
     .why { grid-template-columns: 1fr; border-radius: 20px; }
     .book { grid-template-columns: 1fr; }
     .trust-note { margin-left: 0; width: 100%; }
+
+    .reviews {
+      grid-template-columns: none; grid-auto-flow: column; grid-auto-columns: 84%;
+      overflow-x: auto; scroll-snap-type: x mandatory; padding-bottom: 6px;
+      margin-inline: calc(clamp(24px, 6vw, 80px) * -1); padding-inline: clamp(24px, 6vw, 80px);
+      scrollbar-width: none;
+    }
+    .reviews::-webkit-scrollbar { display: none; }
+    .review { scroll-snap-align: center; }
   }
+  @media (max-width: 520px) {
+    .cal-grid { grid-template-columns: 1fr; }
+  }
+
+  /* Revelado ligado al scroll donde el navegador lo soporta (sin JS) */
+  @supports (animation-timeline: view()) {
+    @media (prefers-reduced-motion: no-preference) {
+      [data-reveal] {
+        opacity: 1; transform: none; transition: none;
+        animation: reveal linear both;
+        animation-timeline: view();
+        animation-range: entry 8% cover 26%;
+      }
+      @keyframes reveal { from { opacity: 0; transform: translateY(24px); } }
+    }
+  }
+
   @media (prefers-reduced-motion: reduce) {
     *, [data-reveal] { animation: none !important; transition: none !important; opacity: 1 !important; transform: none !important; }
   }
